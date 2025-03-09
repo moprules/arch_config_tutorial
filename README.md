@@ -381,7 +381,7 @@ flatpak install flathub org.flameshot.Flameshot
 flatpak run org.flameshot.Flameshot config
 ```
 
-Комманда для запуске для новой комбинации клавиш
+Комманда запуска для новой комбинации клавиш
 ```console
 flatpak run org.flameshot.Flameshot gui
 ```
