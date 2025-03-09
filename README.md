@@ -69,12 +69,12 @@ timedatectl set-ntp true
 ```console
 fdisk -l
 ```
-![fdisk](img/fdisk.png)
+![fdisk](img/2_4_fdisk.png)
 Но по моему мнению самый удобный способ посмотреть диски так. Но данная комманда не выводит перед названиями дисков путь __/dev/__.
 ```console
 lsblk -o NAME,LABEL,TYPE,MOUNTPOINTS,SIZE
 ```
-![lsblk](img/lsblk.png)
+![lsblk](img/2_4_lsblk.png)
 
 Размечаем диск (в моейм случае это __nvme0n1__). Необходимо сделать один раздел загрузки __efi__, один под __swap__ и один под корневой раздел.
 ```console
@@ -134,7 +134,7 @@ man-db man-pages
 grub os-prober efibootmgr
 mtools dosfstools fuse3
 inetutils dhcpcd netctl dialog wpa_supplicant
-openssh ark unzip unrar
+openssh zip unzip unrar
 amd-ucode (or intel-ucode)
 ```
 
@@ -275,7 +275,7 @@ nmcli device wifi list
 nmcli device wifi connect "Название_сети" password "Пароль"
 ```
 
-Проверка подключения
+Проверка подключения. Комманда __ping__ находится в пакете __inetutils__.
 ```console
 ping ya.ru
 ```
@@ -286,11 +286,16 @@ ping ya.ru
 ```console
 useradd -m -g users -G wheel -s /bin/bash <MYUSERNAME>
 ```
-Установить пароль для нового пользователя. Вместо MYUSERNAME вписать имя пользователя.
+```console
+useradd -m -g users -G wheel -s /bin/bash kek
+```
+Установить пароль для нового пользователя. Вместо  __\<MYUSERNAME\>__ вписать имя пользователя.
 ```console
 passwd <MYUSERNAME>
 ```
-
+```console
+passwd kek
+```
 Настроить sudo для нового пользователя.
 ```console
 # nano /etc/sudoers
@@ -303,7 +308,7 @@ passwd <MYUSERNAME>
 ## 4.3 Установка GUI plasma
 Минимальная установка plasma
 ```console
-pacman -S plasma-meta sddm konsole dolphin
+pacman -S plasma-meta sddm konsole dolphin firefox ark
 ```
 
 Включаем в автозапуск дисплейный менеджер
@@ -311,3 +316,293 @@ pacman -S plasma-meta sddm konsole dolphin
 sudo systemctl enable sddm
 ```
 
+Самый простой путь, чтобы применить настройки и увидеть GUI нужно просто перезагрузить систему
+```console
+reboot
+```
+
+## 4.4 Не работает bluetooth
+Все нужные пакеты должны были быть установлены на предыдущем этапе. Скорее всего просто не запущен демон bluetooth
+```console
+sudo systemctl enable bluetooth
+```
+
+## 4.5 Решение проблемы с раскладкой клавиатуры
+Для сеансов с wayland на kde наблюдается ошибка с тем, что выставленные раскладки клавиатуры сбрасываются при каждом перезапуске системы.
+Рабочий вариант исправить эту проблему будет изменить файл __kxkbrc__:
+
+```console
+nano ~/.config/kxkbrc
+```
+```console
+[Layout]
+DisplayNames=,
+LayoutList=us,ru
+Options=grp:alt_shift_toggle
+ResetOldOptions=true
+Use=true
+VariantList=,
+```
+
+## 4.6 Установка yay
+Сначала проверим установлены ли нужные пакеты и если нет то поставим их.
+```console
+sudo pacman -S --needed base-devel git
+```
+
+Клонируем официальный репозиторий yay
+```console
+git clone https://aur.archlinux.org/yay.git
+```
+
+Переходим в созданную папку
+```console
+cd yay
+```
+
+Внутри этой папки должен быть файл PKGBUILD. Теперь чтобы установить __yay__ нужно выполнить следующую комманду:
+```console
+makepkg -si
+```
+
+## 4.7 Работа с flatpak
+Изначально в discover можно устанавливать только расширения kde plasma. Чтобы через GUI устанавливать другие пакеты можно поставить flatpak (но установка из flatpak быстрее в консоли)
+```console
+ sudo pacman -S flatpak
+```
+
+### 4.7.1 Flameshot
+Flameshot удобно ставить через flatpak
+```console
+flatpak install flathub org.flameshot.Flameshot
+```
+Настройки flameshot
+```console
+flatpak run org.flameshot.Flameshot config
+```
+
+Комманда для запуске для новой комбинации клавиш
+```console
+flatpak run org.flameshot.Flameshot gui
+```
+
+### 4.7.2 Яндекс браузер
+```console
+flatpak install flathub ru.yandex.Browser
+```
+
+## 4.8 Работа со snap
+Сначала через yay ставим __snapd__:
+```console
+yay -S snapd
+```
+
+Включаем демон
+```console
+sudo systemctl enable --now snapd.socket
+```
+
+Также нужно включить правильную работу в песочнице
+```console
+sudo systemctl enable --now snapd.apparmor.service
+```
+
+Настройка запуска программ в коммандной строке без префикса snap
+```console
+sudo ln -s /var/lib/snapd/snap /snap
+```
+
+### 4.8.1 Установка Visual Studio Code
+```console
+sudo snap install code --classic
+```
+
+## 4.9 Настройка Nekobox (Nekoray)
+Скачайте и разархивируйте последний официальный релиз с [github](https://github.com/MatsuriDayo/nekoray/releases).
+
+В терминале перейдите в паку nekoray
+
+Для создания desktop файла и применение его в системе скопируйте и выполните комманды (__работает только для KDE__):
+```console
+desktop_dir="$HOME/.local/share/applications"
+mkdir -p "${desktop_dir}"
+desktop_file_path="${desktop_dir}/nekoray.desktop"
+
+if [ -e ${desktop_file_path} ]
+then
+    rm -f ${desktop_file_path}
+fi
+
+echo """[Desktop Entry]
+Type=Application
+Name=Nekoray
+Icon=$PWD/nekobox.png
+Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY KDE_SESSION_VERSION=6 KDE_FULL_SESSION=true $PWD/launcher
+Categories=Network;
+Terminal=false
+""" > ${desktop_file_path}
+
+chmod 777 ${desktop_file_path}
+```
+
+
+# 5. Для программирования
+## 5.1 Первончальная настройка git
+Настройка имени пользователя
+```console
+git config --global user.name "John Doe"
+```
+```console
+git config --global user.name moprules
+```
+Настройка рабочей почты
+```console
+git config --global user.email johndoe@example.com
+```
+```console
+git config --global user.email rav-navini-gego-cutropal@yandex.ru
+```
+
+## 5.2 Docker
+Сначала обновим и установим все зависимости. Без данной комманды зеркало может выдавать ошибку
+```console
+pacman -Syyu
+```
+
+Устанавливаем docker
+```console
+pacman -S docker
+```
+
+Включаем демон докера
+```console
+sudo systemctl enable --now docker
+```
+
+Добавляем пользователя в группу docker
+```console
+sudo usermod -aG docker $USER
+```
+
+__Чтобы применить изменения нужно перезагрузиться__
+
+Проверка работы docker
+```console
+docker run hello-world
+```
+
+## 5.3 Pyenv
+Сначала поставим необходимые пакеты
+```console
+pacman -S --needed base-devel openssl zlib xz tk
+```
+
+Непосредственно установка pyenv
+```console
+curl https://pyenv.run | bash
+```
+
+Обновление pyenv
+```console
+pyenv update
+```
+
+Удаление pyenv
+```console
+rm -fr ~/.pyenv
+```
+
+Для автоматической загрузки pyenv нужно добавить в __.bashrc__ следующие строки
+```console
+nano ~/.bashrc
+```
+```console
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - bash)"
+
+# Restart your shell for the changes to take effect.
+
+# Load pyenv-virtualenv automatically by adding
+# the following to ~/.bashrc:
+
+eval "$(pyenv virtualenv-init -)"
+
+alias py="python"
+```
+
+Применить изменения
+```console
+source ~/.bashrc
+```
+
+Посмотреть доступных для установки версий python
+```console
+pyenv install -l | less
+```
+
+Пример установки конкретной версии
+```console
+pyenv install 3.12.9
+```
+
+Установка версии python для текущего сеанса в терминале
+```console
+pyenv local 3.12.9
+```
+
+Установка версии python глобально на уровне системы
+```console
+pyenv global 3.12.9
+```
+Проверки какой питон сейчас используется (системый или из pyenv)
+```console
+which python
+```
+
+## 5.4 Node.js
+Сначала нужно установить менеджер версий node.js
+```console
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+```
+
+По аналогии с pyenv нужно будет прописать настройки. Если вы используете только bash то допольнительно ничего прописывать не надо, установочный скрипт автоматически добавить настройки в __.bashrc__. Если вы используете zsh, fish и тп, добавьте в файл настроек вашей оболочки следующие строки:
+```console
+nano ~/.bashrc
+```
+```console
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+```
+
+Установить последнюю версию node.js с длительным сроком поддержки
+```
+nvm install --lts
+```
+
+## 5.5 Java (sdkman)
+Самый простой способ установить java - при помощи утилиты sdkman. Данная утилита избавляет от необходимости прописывать переменные окружения и позволяет хранить сразу несколько версий java на вышем компьютере.  
+Перед установкой нужно поставить unzip
+```console
+pacman -S --needed  zip
+```
+
+Установка sdkam
+```console
+curl -s "https://get.sdkman.io" | bash
+```
+
+Установка последней стаблильной версии java
+```console
+sdk install java
+```
+
+Для настройка Androind Studio или IntelliJ IDEA может потребоваться прописать путь до установленной java. Установленные версии java обычно расположены по пути:
+```console
+~/.sdkman/candidates/java/
+```
+Пример пути для конктретной версии java
+```console
+~/.sdkman/candidates/java/21.0.6-tem/
+```
