@@ -407,7 +407,7 @@ sudo systemctl enable --now snapd.socket
 sudo systemctl enable --now snapd.apparmor.service
 ```
 
-Настройка запуска программ в коммандной строке без префикса snap
+Настройка запуска программ в коммандной строке без префикса __snap run__
 ```console
 sudo ln -s /var/lib/snapd/snap /snap
 ```
