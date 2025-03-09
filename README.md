@@ -536,7 +536,7 @@ alias py="python"
 source ~/.bashrc
 ```
 
-Посмотреть доступных для установки версий python
+Посмотреть доступные для установки версии python
 ```console
 pyenv install -l | less
 ```
@@ -546,12 +546,12 @@ pyenv install -l | less
 pyenv install 3.12.9
 ```
 
-Установка версии python для текущего сеанса в терминале
+Выбор версии python для текущего сеанса в терминале
 ```console
 pyenv local 3.12.9
 ```
 
-Установка версии python глобально на уровне системы
+Выбор версии python глобально на уровне системы
 ```console
 pyenv global 3.12.9
 ```
