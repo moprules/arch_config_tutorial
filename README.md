@@ -381,9 +381,14 @@ flatpak install flathub org.flameshot.Flameshot
 flatpak run org.flameshot.Flameshot config
 ```
 
+Для правильного копирования скриншотов в wayland нужно скачать дополнительно пакет
+```console
+sudo pacman -S wl-clipboard
+```
+
 Комманда запуска для новой комбинации клавиш
 ```console
-flatpak run org.flameshot.Flameshot gui
+flatpak run org.flameshot.Flameshot gui --raw | wl-copy
 ```
 
 ### 4.7.2 Яндекс браузер
