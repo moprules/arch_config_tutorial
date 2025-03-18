@@ -133,8 +133,9 @@ sudo htop git nano vim
 man-db man-pages
 grub os-prober efibootmgr
 mtools dosfstools fuse3
-inetutils dhcpcd netctl dialog wpa_supplicant
-openssh zip unzip unrar
+networkmanager inetutils openssh
+dhcpcd netctl dialog wpa_supplicant
+zip unzip unrar
 amd-ucode (or intel-ucode)
 ```
 
