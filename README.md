@@ -405,7 +405,7 @@ yay -S snapd
 
 Включаем демон
 ```console
-sudo systemctl enable --now snapd.socket
+sudo systemctl enable --now snapd
 ```
 
 Также нужно включить правильную работу в песочнице
