@@ -472,12 +472,12 @@ git config --global user.email rav-navini-gego-cutropal@yandex.ru
 ## 5.2 Docker
 Сначала обновим и установим все зависимости. Без данной комманды зеркало может выдавать ошибку
 ```console
-pacman -Syyu
+sudo pacman -Syyu
 ```
 
 Устанавливаем docker
 ```console
-pacman -S docker
+sudo pacman -S docker
 ```
 
 Включаем демон докера
