@@ -500,7 +500,7 @@ docker run hello-world
 ## 5.3 Pyenv
 Сначала поставим необходимые пакеты
 ```console
-pacman -S --needed base-devel openssl zlib xz tk
+sudo pacman -S --needed base-devel openssl zlib xz tk
 ```
 
 Непосредственно установка pyenv
@@ -591,7 +591,7 @@ nvm install --lts
 Самый простой способ установить java - при помощи утилиты sdkman. Данная утилита избавляет от необходимости прописывать переменные окружения и позволяет хранить сразу несколько версий java на вышем компьютере.  
 Перед установкой нужно поставить zip
 ```console
-pacman -S --needed  zip
+sudo pacman -S --needed  zip
 ```
 
 Установка sdkam
