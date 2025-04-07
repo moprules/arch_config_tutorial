@@ -612,3 +612,12 @@ sdk install java
 ```console
 ~/.sdkman/candidates/java/21.0.6-tem/
 ```
+
+## 5.6 Разработка на Qt6 + Qt Creator
+Устанавливим все необходимые пакеты
+```console
+sudo pacman -S qt6-base qt6-doc qt6-examples qt6-tools qt6-multimedia qt6-networkauth qt6-3d qt6-webengine qt6-svg cmake qtcreator
+```
+
+Чтобы включить Quick Designer перейдите `Справка->О модулях...` и выберите нужный пункт, после чего нажать просто `ОК`.
+![fdisk](img/5_6_quick_select.png)
