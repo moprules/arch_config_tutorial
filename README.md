@@ -497,73 +497,10 @@ __Чтобы применить изменения нужно перезагру
 docker run hello-world
 ```
 
-## 5.3 Pyenv
-Сначала поставим необходимые пакеты
+## 5.3 uv
+Универсальный скрипт установки современного менеджера python uv
 ```console
-sudo pacman -S --needed base-devel openssl zlib xz tk
-```
-
-Непосредственно установка pyenv
-```console
-curl https://pyenv.run | bash
-```
-
-Обновление pyenv
-```console
-pyenv update
-```
-
-Удаление pyenv
-```console
-rm -fr ~/.pyenv
-```
-
-Для автоматической загрузки pyenv нужно добавить в __.bashrc__ следующие строки
-```console
-nano ~/.bashrc
-```
-```console
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - bash)"
-
-# Restart your shell for the changes to take effect.
-
-# Load pyenv-virtualenv automatically by adding
-# the following to ~/.bashrc:
-
-eval "$(pyenv virtualenv-init -)"
-
-alias py="python"
-```
-
-Применить изменения
-```console
-source ~/.bashrc
-```
-
-Посмотреть доступные для установки версии python
-```console
-pyenv install -l | less
-```
-
-Пример установки конкретной версии
-```console
-pyenv install 3.12.9
-```
-
-Выбор версии python для текущего сеанса в терминале
-```console
-pyenv local 3.12.9
-```
-
-Выбор версии python глобально на уровне системы
-```console
-pyenv global 3.12.9
-```
-Проверки какой питон сейчас используется (системый или из pyenv)
-```console
-which python
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 ## 5.4 Node.js
