@@ -459,6 +459,20 @@ Terminal=false
 chmod 777 ${desktop_file_path}
 ```
 
+## 4.10 Настройка ключей авторизации
+Если скачивать ранее заданные ключи с облачного хранилища, то у них поменяются права доступа и в некоторых случаях это приведёт к отказу авторизации. Чтобы это исправить необходимо заново задать нужные права:  
+_1)_  Права для папки где хранятся ssh ключи (только владелец)
+```console
+chmod 700 ~/.ssh
+```
+_2)_ Приватные ключи (только владелей)
+```console
+chmod 600 ~/.ssh/*
+```
+_3)_ Публичные ключи (чтение для всех, запись только для владельца)
+```console
+chmod 644 ~/.ssh/*.pub
+```
 
 # 5. Для программирования
 ## 5.1 Первончальная настройка git
@@ -475,6 +489,14 @@ git config --global user.email johndoe@example.com
 ```
 ```console
 git config --global user.email rav-navini-gego-cutropal@yandex.ru
+```
+Проверка авторизации по shh c github
+```console
+ssh -T git@guthub.com
+```
+Проверка авторизации по shh c gitlab
+```console
+ssh -T git@gitlab.com
 ```
 
 ## 5.2 Docker
