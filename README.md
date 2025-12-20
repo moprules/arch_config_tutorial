@@ -492,7 +492,7 @@ git config --global user.email rav-navini-gego-cutropal@yandex.ru
 ```
 Проверка авторизации по shh c github
 ```console
-ssh -T git@guthub.com
+ssh -T git@github.com
 ```
 Проверка авторизации по shh c gitlab
 ```console
