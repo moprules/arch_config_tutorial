@@ -423,16 +423,16 @@ sudo ln -s /var/lib/snapd/snap /snap
 sudo snap install code --classic
 ```
 
-## 4.9 Настройка Nekobox (Nekoray)
-Скачайте и разархивируйте последний официальный релиз с [github](https://github.com/MatsuriDayo/nekoray/releases).
+## 4.9 Настройка VPN (v2rayN)
+Скачайте и разархивируйте последний официальный релиз с [github](https://github.com/2dust/v2rayN/releases).
 
-В терминале перейдите в паку nekoray
+В терминале перейдите в паку v2rayN
 
 Для создания desktop файла и применение его в системе скопируйте и выполните комманды (__работает только для KDE__):
 ```console
 desktop_dir="$HOME/.local/share/applications"
 mkdir -p "${desktop_dir}"
-desktop_file_path="${desktop_dir}/nekoray.desktop"
+desktop_file_path="${desktop_dir}/v2rayN.desktop"
 
 if [ -e ${desktop_file_path} ]
 then
@@ -441,9 +441,9 @@ fi
 
 echo """[Desktop Entry]
 Type=Application
-Name=Nekoray
-Icon=$PWD/nekobox.png
-Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY KDE_SESSION_VERSION=6 KDE_FULL_SESSION=true $PWD/launcher
+Name=v2rayN
+Icon=$PWD/v2rayN.png
+Exec=$PWD/v2rayN
 Categories=Network;
 Terminal=false
 """ > ${desktop_file_path}
