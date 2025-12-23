@@ -507,7 +507,7 @@ sudo pacman -Syyu
 
 Устанавливаем docker
 ```console
-sudo pacman -S docker docker-compose
+sudo pacman -S docker docker-compose docker-buildx
 ```
 
 Включаем демон докера
