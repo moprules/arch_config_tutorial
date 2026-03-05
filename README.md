@@ -523,11 +523,11 @@ git config --global user.email johndoe@example.com
 ```console
 git config --global user.email rav-navini-gego-cutropal@yandex.ru
 ```
-Проверка авторизации по shh c github
+Проверка авторизации по ssh c github
 ```console
 ssh -T git@github.com
 ```
-Проверка авторизации по shh c gitlab
+Проверка авторизации по ssh c gitlab
 ```console
 ssh -T git@gitlab.com
 ```
