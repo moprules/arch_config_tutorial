@@ -317,12 +317,12 @@ passwd kek
 ## 4.3 Установка GUI plasma
 Минимальная установка plasma
 ```console
-pacman -S plasma-meta sddm konsole dolphin firefox ark
+pacman -S plasma-meta plasma-login-manager qt6-multimedia-ffmpeg pipewire-jack noto-fonts konsole dolphin firefox ark
 ```
 
 Включаем в автозапуск дисплейный менеджер
 ```console
-sudo systemctl enable sddm
+sudo systemctl enable plasmalogin
 ```
 
 Самый простой путь, чтобы применить настройки и увидеть GUI нужно просто перезагрузить систему
@@ -333,7 +333,7 @@ reboot
 ## 4.4 Не работает bluetooth
 Все нужные пакеты должны были быть установлены на предыдущем этапе. Скорее всего просто не запущен демон bluetooth
 ```console
-sudo systemctl enable bluetooth
+sudo systemctl enable --now bluetooth
 ```
 
 ## 4.5 Решение проблемы с раскладкой клавиатуры
