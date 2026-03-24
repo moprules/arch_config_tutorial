@@ -416,6 +416,11 @@ yay -S snapd
 sudo systemctl enable --now snapd
 ```
 
+Включаем взаимодейтсвие через сокеты
+```console
+sudo systemctl enable --now snapd.socket
+```
+
 Также нужно включить правильную работу в песочнице
 ```console
 sudo systemctl enable --now snapd.apparmor.service
