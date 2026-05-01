@@ -129,7 +129,7 @@ nano /etc/pacman.d/mirrorlist
 ```
 
 В начало файла нужно добавить зеркало яндекса
-```console
+```ini
 Server = https://mirror.yandex.ru/archlinux/$repo/os/$arch
 ```
 
@@ -192,14 +192,14 @@ locale-gen
 ```
 
 Указать язык системы
-```console
+```ini
 # nano /etc/locale.conf
 
 LANG=ru_RU.UTF-8
 ```
 
 Указываем язык и шрифт для консоли
-```console
+```ini
 # nano /etc/vconsole.conf
 
 KEYMAP=ru
@@ -220,10 +220,10 @@ mount /dev/nvme0n1p1 /efi
 ```
 
 Далее необходимо в настройках grub разрешить работу __os-prober__
-```console
+```ini
 # nano /etc/default/grub
 
-В конец файла нужно прописать или раскоментировать
+# В конец файла нужно прописать или раскоментировать
 
 GRUB_DISABLE_OS_PROBER=false
 ```
@@ -306,7 +306,7 @@ passwd <MYUSERNAME>
 passwd kek
 ```
 Настроить sudo для нового пользователя.
-```console
+```ini
 # nano /etc/sudoers
 
 Раскомментировать нижеуказанную строку.
@@ -626,3 +626,90 @@ sudo pacman -S qt6-base qt6-doc qt6-examples qt6-tools qt6-multimedia qt6-networ
 
 Чтобы включить Quick Designer перейдите `Справка->О модулях...` и выберите нужный пункт, после чего нажать просто `ОК`.
 ![fdisk](img/5_6_quick_select.png)
+
+# 6. Игры
+
+## 6.1 Steam (+Proton)
+> [!CAUTION]
+> **Файловые системы:** Если библиотека игр находится на **NTFS**, **Proton** может не запуститься из-за несовместимости прав доступа. На Arch Linux для стабильной работы игр рекомендуется использовать **Ext4** или **Btrfs**.
+### 6.1.1 Включение репозитория multilib
+Steam является 32-битным приложением, поэтому необходимо активировать соответствующий репозиторий. Откройте файл от имени конфигурации репозиторием от суперпользователя:
+```console
+sudo nano /etc/pacman.conf
+```
+И раскомментируйте следующие строки:
+```ini
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+После сохранения файла Устанавливаем steam (и обновляем репозитории для видимости multilib)
+```console
+sudo pacman -Syyu steam
+```
+
+### 6.1.2 Установка видеодрайверов и библиотек Vulkan
+Для работы Proton и корректного отображения игр необходимо установить драйверы и поддержку Vulkan (как 64-бит, так и 32-бит библиотеки):
+*   **NVIDIA:**
+```console
+sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
+```
+*   **AMD (Mesa):**
+```console
+sudo pacman -S mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
+```
+*   **Intel:**
+```console
+sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel
+```
+
+### 6.1.3 Установка Proton GE (Custom)
+Proton GE включает исправления для видеокодеков и специфические патчи, отсутствующие в официальной версии - лучше всего запускает игры. Для его установки поставим Через ProtonUp-Qt (GUI):
+```console
+sudo pacman -S protonup-qt
+```
+Внутри **ProtonUp-Qt**, выполните следующие действия:
+
+1. **Выбор Steam:** В верхней части окна в поле **"Install for"** убедитесь, что выбран путь к вашему клиенту Steam (обычно определяется автоматически).
+2. **Добавление версии:** Нажмите кнопку **"Add version"** в нижней части интерфейса.
+3. **Параметры скачивания:**
+   * В выпадающем списке **Compatibility tool** выберите `GE-Proton`.
+   * В списке **Version** выберите самую верхнюю (последнюю) версию.
+   * Нажмите кнопку **"Install"** и дождитесь окончания загрузки и распаковки.
+4. **Проверка:** После завершения версия появится в общем списке установленных инструментов в окне программы.
+
+### 6.1.5 Настройка Steam Play
+После установки Proton GE необходимо активировать его в настройках клиента для всех игр:
+1.  **Перезапустите Steam**, чтобы он проиндексировал новые файлы в директории `compatibilitytools.d`.
+2.  Перейдите в **Settings** (Настройки) > **Compatibility** (Совместимость).
+3.  Активируйте чекбокс **Enable Steam Play for all other titles**.
+4.  В выпадающем списке под этим пунктом выберите последнюю версию **GE-Proton**.
+5.  Нажмите **OK** и перезагрузите клиент по запросу.
+
+
+
+## 6.2 Retroarch (мультиэмулятор)
+Лучше всего скачать AppImage c офицального [__сайта__](https://buildbot.libretro.com/nightly/linux/x86_64/RetroArch_Qt.7z).
+Дальше внутри папки где находится AppImage выполнить комманду:
+ля создания desktop файла и применение его в системе скопируйте и выполните комманды (__работает только для KDE__):
+```console
+desktop_dir="$HOME/.local/share/applications"
+mkdir -p "${desktop_dir}"
+desktop_file_path="${desktop_dir}/v2rayN.desktop"
+
+if [ -e ${desktop_file_path} ]
+then
+    rm -f ${desktop_file_path}
+fi
+
+echo """[Desktop Entry]
+Type=Application
+Name=RetroArch
+Icon=$PWD/RetroArch-Linux-x86_64.AppImage.home/.config/retroarch/assets/glui/cores.png
+Exec=$PWD/RetroArch-Linux-x86_64.AppImage
+Categories=Game;
+Terminal=false
+""" > ${desktop_file_path}
+
+chmod 777 ${desktop_file_path}
+```
