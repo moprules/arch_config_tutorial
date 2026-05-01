@@ -695,7 +695,7 @@ sudo pacman -S protonup-qt
 ```console
 desktop_dir="$HOME/.local/share/applications"
 mkdir -p "${desktop_dir}"
-desktop_file_path="${desktop_dir}/v2rayN.desktop"
+desktop_file_path="${desktop_dir}/retroarch.desktop"
 
 if [ -e ${desktop_file_path} ]
 then
