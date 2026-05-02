@@ -455,9 +455,10 @@ fi
 echo """[Desktop Entry]
 Type=Application
 Name=v2rayN
+Comment=VPN client
+Categories=Network;
 Icon=$PWD/v2rayN.png
 Exec=$PWD/v2rayN
-Categories=Network;
 Terminal=false
 """ > ${desktop_file_path}
 
@@ -705,9 +706,10 @@ fi
 echo """[Desktop Entry]
 Type=Application
 Name=RetroArch
+Comment=Retro game launcher
+Categories=Game;
 Icon=$PWD/RetroArch-Linux-x86_64.AppImage.home/.config/retroarch/assets/glui/cores.png
 Exec=$PWD/RetroArch-Linux-x86_64.AppImage
-Categories=Game;
 Terminal=false
 """ > ${desktop_file_path}
 
