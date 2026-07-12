@@ -667,7 +667,7 @@ sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel
 ### 6.1.3 Установка Proton GE (Custom)
 Proton GE включает исправления для видеокодеков и специфические патчи, отсутствующие в официальной версии - лучше всего запускает игры. Для его установки поставим Через ProtonUp-Qt (GUI):
 ```console
-sudo pacman -S protonup-qt
+yay -S protonup-qt
 ```
 Внутри **ProtonUp-Qt**, выполните следующие действия:
 
