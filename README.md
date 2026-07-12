@@ -575,7 +575,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ## 5.4 Node.js
 Сначала нужно установить менеджер версий node.js
 ```console
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.5/install.sh | bash
 ```
 
 По аналогии с pyenv нужно будет прописать настройки. Если вы используете только bash то допольнительно ничего прописывать не надо, установочный скрипт автоматически добавить настройки в __.bashrc__. Если вы используете zsh, fish и тп, добавьте в файл настроек вашей оболочки следующие строки:
